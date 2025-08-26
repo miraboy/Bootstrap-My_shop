@@ -20,7 +20,7 @@ class User {
     public function getErrors(){
         return $this->errors;
     }
-    /*** CREATE / SIGNUP ***/
+    /** CREATE / SIGNUP **/
     public function signup($asAdmin = false) {
         try {
 
@@ -68,7 +68,7 @@ class User {
         }
     }
 
-    /*** READ / SIGNIN ***/
+    /** READ / SIGNIN **/
     public function signin() {
         try {
             $this->email = Validator::sanitize($this->email);
@@ -105,17 +105,17 @@ class User {
         }
     }
 
-    /*** FIND USER BY critere ***/
-    public function findUser($critere, $value) {
+    /** FIND USER BY colonne **/
+    public function findUser($colonne, $value) {
         try {
             $allowedFields = ['id', 'email', 'username'];
-            if(!in_array($critere, $allowedFields)) {
+            if(!in_array($colonne, $allowedFields)) {
                 $this->errors[] = "Critère de recherche invalide.";
-                logError(__CLASS__, __METHOD__, "Critère invalide: $critere");
+                logError(__CLASS__, __METHOD__, "Critère invalide: $colonne");
                 return false;
             }
             
-            $query = "SELECT * FROM " . $this->table . " WHERE $critere = :value LIMIT 1";
+            $query = "SELECT * FROM " . $this->table . " WHERE $colonne = :value LIMIT 1";
             $db=$this->conn;
             
             $stmt = $db->prepare($query);
@@ -136,7 +136,7 @@ class User {
         }
     }
 
-    /*** FIND ALL USERS (ADMIN ONLY) ***/
+    /** FIND ALL USERS (ADMIN ONLY) **/
     public function findAll() {
         if($this->is_admin != 1) {
             $this->errors[] = "Permission refusée.";
@@ -161,7 +161,7 @@ class User {
         }
     }
 
-    /*** UPDATE USER (tous les champs optionnels sauf ID) ***/
+    /** UPDATE USER (tous les champs optionnels sauf ID) **/
     public function update($data, $idToUpdate = null) {
         $idToUpdate = $idToUpdate ?? $this->id;
         if(!$idToUpdate) {
@@ -223,7 +223,7 @@ class User {
         }
     }
 
-    /*** DELETE USER ***/
+    /** DELETE USER **/
     public function delete($targetUserId = null) {
         $idToDelete = $targetUserId ?? $this->id;
         if($idToDelete != $this->id && $this->is_admin != 1) {
