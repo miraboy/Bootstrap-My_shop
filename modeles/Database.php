@@ -1,10 +1,20 @@
 <?php
 class Database {
-    private $host = "localhost";
-    private $db_name = "bootstrap";
-    private $username = "root";
-    private $password = "";
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
     public $conn;
+
+    public function __construct() {
+        // Charger le .env
+        $env = parse_ini_file(__DIR__ . '/../.env');
+
+        $this->host     = $env['DB_HOST'] ?? 'localhost';
+        $this->db_name  = $env['DB_NAME'] ?? '';
+        $this->username = $env['DB_USER'] ?? '';
+        $this->password = $env['DB_PASS'] ?? '';
+    }
 
     public function getConnection() {
         $this->conn = null;
